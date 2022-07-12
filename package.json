@@ -1,0 +1,15 @@
+{
+  "name": "blackjackgame",
+  "version": "1.0.0",
+  "description": "Blackjack game by console",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "author": "Katerin Calderon",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
