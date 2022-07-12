@@ -31,7 +31,7 @@ function validateCardValue(cardName){
 
     switch (cardName) {
         case "Ace":
-            return 1;
+            return 0;
         case "Jack":
         case "Queen":
         case "King":

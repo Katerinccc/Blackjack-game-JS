@@ -15,9 +15,9 @@ function mainMenu(){
     do {
         console.log("Welcome to Blackjack game.\n")
         console.log("1. Create new player.")
-        console.log("2. Already register? Then let's play.")
+        console.log("2. Are you already a player? Then let's play.")
         console.log("0. Exit.\n")
-        option = prompt('Select the number of the option to continue: ');
+        option = prompt('Enter number of the option selected to continue: ');
         options(option);
     } while (option != 0);    
 
@@ -35,9 +35,6 @@ function options(userOption){
             startGame();
             break;
         case "0":
-            // players.forEach(player => {
-            //     console.log(player)
-            // });
             console.log("Good bye. Have a nice day!")
             break;
         default:
@@ -59,30 +56,40 @@ function createPlayer(){
     });
     players.push(newPlayer);
 
-    console.log("Player created successfully.")
+    console.log("\n----- Player created successfully! -----\n")
 }
 
 function startGame(){
     let idPlayer = prompt('Enter player ID to play: ');
-    let decision;
+    let decision = true;
 
     if (validatePlayer(idPlayer)) {
         let player = searchPlayer(idPlayer);
-        console.log("Hi " + player.name + " let's play Blackjack!\n");
+        console.log("\nHi " + player.name + "! Let's play Blackjack!!!\n");
 
         do {
-            playGame(player);
-            decision = prompt('Do you want to continue playing? Y/N')
-        } while (decision.toUpperCase != "N");
+            let gameResult = playGame();
+            if (gameResult === "win") {
+                player.prize =+ 1000;
+                decision = validateDecisionContinue();
+            }else{
+                decision = false;
+            }
+            
+        } while (decision);
+        console.log("\nGame over. Total earned: " + player.prize + " USD." );
+    }else{
+        console.log("The ID entered is not registered. Please go to option 1 to create a new player and come back to play.\n")
     }
-    console.log("The ID entered is not registered. Please go to option 1 to create a new player and come back to play.")
 }
 
-function playGame(player){
+function playGame(){
 
     gameCards = [];
     score = 0;
     let gameStatus = "continue";
+
+    console.log("\n----- New Game -----\n")
 
     do {
         let cardGame = drawCardGame();
@@ -92,18 +99,32 @@ function playGame(player){
         }
         score += cardGame.value;
         console.log("Your score now is: " + score);
-        console.log("Next card ___________________")
         gameStatus = validateScore(score);
-        console.log(gameStatus);
+        if (gameStatus === "continue") {
+            console.log("\nNext card --------------")
+        }
     } while (gameStatus === "continue" );
 
     if (gameStatus === "win") {
-        player.prize += 1000;
-        console.log("You win")
+        console.log("---- Congratulations you win!!! Your Prize for this game is 1,000 USD.")
+        return gameStatus;
     }else{
-        console.log("Sorry, but you lose")
+        console.log("---- Sorry, but you lost :(")
+        return gameStatus;
     }
 
+}
+
+function validateDecisionContinue(){
+    let decision = prompt("Do you want to continue playing? Enter Y/N : ");
+    decision = decision.toUpperCase();
+    if(decision ===  "Y"){
+        return true;
+    }else if(decision === "N"){
+        return false
+    }else{
+        validateDecisionContinue();
+    }
 }
 
 function validatePlayer(idPlayer){
@@ -132,7 +153,7 @@ function drawCardGame(){
 }
 
 function validateAceDecision(){
-    aceDecisionPlayer = prompt('Which value you want for the card? Please type 1 or 11: ');
+    aceDecisionPlayer = prompt('Which value you want for your Ace card? Please type 1 or 11: ');
 
     switch (aceDecisionPlayer) {
         case "1":
@@ -147,7 +168,6 @@ function validateAceDecision(){
 }
 
 function validateScore(score){
-
     if (score >= 18 && score <=21) {
         return "win";
     }else if(score > 21){
