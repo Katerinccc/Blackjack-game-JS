@@ -3,8 +3,10 @@ const CardDeck = require('./src/cardDeck');
 var prompt = require('prompt-sync')();
 
 let players = [];
-let cards = [];
+let gameCards = [];
 let option = 0;
+let cardDeck = new CardDeck();
+cardDeck.createCardDeck();
 
 function mainMenu(){
 
@@ -28,12 +30,12 @@ function options(userOption){
             createPlayer();
             break;
         case "2":
-            playGame();
+            startGame();
             break;
         case "0":
-            players.forEach(player => {
-                console.log(player)
-            });
+            // players.forEach(player => {
+            //     console.log(player)
+            // });
             console.log("Good bye. Have a nice day!")
             break;
         default:
@@ -44,30 +46,52 @@ function options(userOption){
     console.log("----------------------------------------------------------------------");
 }
 
-function createPlayer(){
+function startGame(){
     let idPlayer = prompt('Enter player ID: ');
     let playerName = prompt('Enter player name: ');
 
     let newPlayer = new Player({
         id: idPlayer,
         name: playerName,
-        price: 0
+        prize: 0
     });
     players.push(newPlayer);
 
     console.log("Player created successfully.")
 }
 
-function playGame(){
-    console.log("functionality in construction");
+function createGame(){
+    let idPlayer = prompt('Enter player ID to play: ');
+
+    if (validatePlayer(idPlayer)) {
+        let playerName = searchPlayerName(idPlayer);
+        console.log("Hi " + playerName + "let's play Blackjack!\n")
+    }
+    console.log("The ID entered is not registered. Please go to the registration in option 1 to be able to play.")
 }
+
+function validatePlayer(idPlayer){
+    return players.includes(idPlayer) ? true:false;
+}
+
+function searchPlayerName(idPlayer){
+    let player = players.filter(player => player.id === idPlayer);
+    return player[0].name;
+}
+
+function drawCard(){
+    let newCardIndex = Math.floor(Math.random() * cardDeck.cards.length);
+    let newCard = cardDeck.cards[newCardIndex];
+    gameCards.push(newCard);
+    return newCard;
+}
+
+function 
+
 
 mainMenu();
 
 
-
-// let cardDeck = new CardDeck();
-// cardDeck.createCardDeck();
 
 // cardDeck.cards.forEach(card => {
 //     console.log(card)

@@ -2,11 +2,11 @@ class Player{
     constructor({
         id,
         name,
-        price
+        prize
     }){
         this.id = id;
         this.name = name
-        this.price = price
+        this.prize = prize
     }
 }
 
