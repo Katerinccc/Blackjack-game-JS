@@ -67,10 +67,12 @@ function startGame(){
         let player = searchPlayer(idPlayer);
         console.log("\nHi " + player.name + "! Let's play Blackjack!!!\n");
 
+        player.prize = 0;
+
         do {
             let gameResult = playGame();
             if (gameResult === "win") {
-                player.prize =+ 1000;
+                player.prize += 1000;
                 decision = validateDecisionContinue();
             }else{
                 decision = false;
@@ -89,7 +91,7 @@ function playGame(){
     score = 0;
     let gameStatus = "continue";
 
-    console.log("\n----- New Game -----\n")
+    console.log("------- New Game -------\n")
 
     do {
         let cardGame = drawCardGame();
@@ -101,15 +103,15 @@ function playGame(){
         console.log("Your score now is: " + score);
         gameStatus = validateScore(score);
         if (gameStatus === "continue") {
-            console.log("\nNext card --------------")
+            console.log("\nNext card ________")
         }
     } while (gameStatus === "continue" );
 
     if (gameStatus === "win") {
-        console.log("---- Congratulations you win!!! Your Prize for this game is 1,000 USD.")
+        console.log("\n---- Congratulations you win!!! Your Prize for this game is 1,000 USD.\n")
         return gameStatus;
     }else{
-        console.log("---- Sorry, but you lost :(")
+        console.log("\n---- Sorry, but you lost :(\n")
         return gameStatus;
     }
 
