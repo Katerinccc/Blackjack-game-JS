@@ -2,7 +2,6 @@ const Player = require('./src/player');
 const CardDeck = require('./src/cardDeck');
 var prompt = require('prompt-sync')();
 
-// let player = new Player();
 let players = [];
 let cards = [];
 let option = 0;
@@ -10,10 +9,10 @@ let option = 0;
 function mainMenu(){
 
     do {
-        console.log("Welcome to Blackjack game.")
-        console.log("1. Create new player")
-        console.log("2. Already register? Then go to Play")
-        console.log("0. Exit")
+        console.log("Welcome to Blackjack game.\n")
+        console.log("1. Create new player.")
+        console.log("2. Already register? Then let's play.")
+        console.log("0. Exit.\n")
         option = prompt('Select the number of the option to continue: ');
         options(option);
     } while (option != 0);    
@@ -32,6 +31,9 @@ function options(userOption){
             playGame();
             break;
         case "0":
+            players.forEach(player => {
+                console.log(player)
+            });
             console.log("Good bye. Have a nice day!")
             break;
         default:
@@ -43,18 +45,30 @@ function options(userOption){
 }
 
 function createPlayer(){
-    console.log("functionality in construction");
+    let idPlayer = prompt('Enter player ID: ');
+    let playerName = prompt('Enter player name: ');
+
+    let newPlayer = new Player({
+        id: idPlayer,
+        name: playerName,
+        price: 0
+    });
+    players.push(newPlayer);
+
+    console.log("Player created successfully.")
 }
 
 function playGame(){
     console.log("functionality in construction");
 }
 
-// mainMenu();
+mainMenu();
 
-let cardDeck = new CardDeck();
-cardDeck.createCardDeck();
 
-cardDeck.cards.forEach(card => {
-    console.log(card)
-});
+
+// let cardDeck = new CardDeck();
+// cardDeck.createCardDeck();
+
+// cardDeck.cards.forEach(card => {
+//     console.log(card)
+// });
