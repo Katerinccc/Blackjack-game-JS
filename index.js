@@ -1,7 +1,8 @@
 const Player = require('./src/player');
-const Card = require('./src/card');
+const CardDeck = require('./src/cardDeck');
 var prompt = require('prompt-sync')();
 
+// let player = new Player();
 let players = [];
 let cards = [];
 let option = 0;
@@ -49,4 +50,11 @@ function playGame(){
     console.log("functionality in construction");
 }
 
-mainMenu();
+// mainMenu();
+
+let cardDeck = new CardDeck();
+cardDeck.createCardDeck();
+
+cardDeck.cards.forEach(card => {
+    console.log(card)
+});
