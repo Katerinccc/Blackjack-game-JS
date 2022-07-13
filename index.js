@@ -119,15 +119,16 @@ function playGame() {
 }
 
 function validateDecisionContinue(){
-    let decision = prompt("Do you want to continue playing? Enter Y/N : ");
-    decision = decision.toUpperCase();
-    if(decision ===  "Y"){
-        return true;
-    }else if(decision === "N"){
-        return false
-    }else{
-        validateDecisionContinue();
-    }
+    let decision;
+    do {
+        decision = prompt("Do you want to continue playing? Enter Y/N : ");
+        decision = decision.toUpperCase();
+        if(decision ===  "Y"){
+            return true;
+        }else if(decision === "N"){
+            return false
+        }
+    } while (decision != "Y" && decision != "N");
 }
 
 function validatePlayer(idPlayer){
@@ -156,14 +157,13 @@ function drawCardGame(){
 }
 
 function validateAceDecision(){
-    aceDecisionPlayer = prompt('Which value you want for your Ace card? Please type 1 or 11: ');
-
-    if (aceDecisionPlayer === '1' || aceDecisionPlayer === '11') {
-        return aceDecisionPlayer;
-    } else {
-        console.log('Please enter a valid option.')
-        validateAceDecision();
-    }
+    let aceDecisionPlayer;
+    do {
+        aceDecisionPlayer = prompt("DWhich value you want for your Ace card? Please type 1 or 11:");
+        if(aceDecisionPlayer === '1' || aceDecisionPlayer === '11'){
+            return aceDecisionPlayer;
+        }
+    } while (aceDecisionPlayer != "1" && aceDecisionPlayer != "11");
 
 }
 
