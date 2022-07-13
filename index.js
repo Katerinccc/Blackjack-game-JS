@@ -9,6 +9,7 @@ let cardDeck = new CardDeck();
 cardDeck.createCardDeck();
 let score = 0;
 let aceDecisionPlayer;
+const prizeUsd = 1000;
 
 function mainMenu(){
 
@@ -61,60 +62,60 @@ function createPlayer(){
 
 function startGame(){
     let idPlayer = prompt('Enter player ID to play: ');
-    let decision = true;
 
     if (validatePlayer(idPlayer)) {
         let player = searchPlayer(idPlayer);
-        console.log("\nHi " + player.name + "! Let's play Blackjack!!!\n");
-
         player.prize = 0;
 
-        do {
-            let gameResult = playGame();
-            if (gameResult === "win") {
-                player.prize += 1000;
-                decision = validateDecisionContinue();
-            }else{
-                decision = false;
-            }
-            
-        } while (decision);
+        console.log("\nHi " + player.name + "! Let's play Blackjack!!!\n");
+
+        createGame(player);
+
         console.log("\nGame over. Total earned: " + player.prize + " USD." );
     }else{
         console.log("The ID entered is not registered. Please go to option 1 to create a new player and come back to play.\n")
     }
 }
 
-function playGame(){
+function createGame(player) {
+    let decision = true;
+    do {
+        gameCards = [];
+        score = 0;
+    
+        console.log("------- New Game -------\n")
 
-    gameCards = [];
-    score = 0;
-    let gameStatus = "continue";
+        let gameResult = playGame();
 
-    console.log("------- New Game -------\n")
+        if (gameResult === "win") {
+            player.prize += prizeUsd;
+            console.log("\n---- Congratulations you win!!! Your Prize for this game is 1,000 USD.")
+            decision = validateDecisionContinue();
+        } else {
+            console.log("\n---- Sorry, but you lost :(")
+            decision = false;
+        }
 
+    } while (decision);
+}
+
+function playGame() {
+    let gameStatus;
     do {
         let cardGame = drawCardGame();
         console.log("You got the card: " + cardGame.name + " of " + cardGame.suit);
         if (cardGame.name === "Ace") {
-            score += Number(validateAceDecision());
+            let number = validateAceDecision();
+            score += Number(number);
         }
         score += cardGame.value;
         console.log("Your score now is: " + score);
         gameStatus = validateScore(score);
         if (gameStatus === "continue") {
-            console.log("\nNext card ________")
+            console.log("\nNext card ________");
         }
-    } while (gameStatus === "continue" );
-
-    if (gameStatus === "win") {
-        console.log("\n---- Congratulations you win!!! Your Prize for this game is 1,000 USD.\n")
-        return gameStatus;
-    }else{
-        console.log("\n---- Sorry, but you lost :(\n")
-        return gameStatus;
-    }
-
+    } while (gameStatus === "continue");
+    return gameStatus;
 }
 
 function validateDecisionContinue(){
@@ -157,14 +158,11 @@ function drawCardGame(){
 function validateAceDecision(){
     aceDecisionPlayer = prompt('Which value you want for your Ace card? Please type 1 or 11: ');
 
-    switch (aceDecisionPlayer) {
-        case "1":
-            return 1;
-        case "11":
-            return 11;
-        default:
-            console.log('Please enter a valid option.')
-            validateAceDecision();
+    if (aceDecisionPlayer === '1' || aceDecisionPlayer === '11') {
+        return aceDecisionPlayer;
+    } else {
+        console.log('Please enter a valid option.')
+        validateAceDecision();
     }
 
 }
